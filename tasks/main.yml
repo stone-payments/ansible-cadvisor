@@ -1,0 +1,16 @@
+---
+- name: run cAdvisor container
+  docker_container:
+    name: cadvisor
+    image: "{{ cadvisor_image }}"
+    volumes:
+      - "/:/rootfs:ro"
+      - "/var/run:/var/run:rw"
+      - "/sys:/sys:ro"
+      - "/var/lib/docker/:/var/lib/docker:ro"
+      - "/dev/disk/:/dev/disk:ro"
+    published_ports:
+      - "{{ cadvisor_port }}:8080"
+    privileged: true
+    state: started
+    restart_policy: always
